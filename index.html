@@ -23,6 +23,19 @@
 
             <!-- Edit Column -->
             <div id="inputForm" class="col-lg-6 gx-0 gx-lg-3">
+                <div class="row mt-4">
+                    <div class="col-6">
+                        <button type="button" class="btn btn-outline-secondary w-100" @click="saveTemplate">
+                            テンプレート保存
+                        </button>
+                    </div>
+                <div class="col-6">
+                    <input type="file" ref="templateLoader" style="display:none" @change="loadTemplateFromFile">
+                        <button type="button" class="btn btn-outline-secondary w-100" @click="triggerLoadTemplate">
+                            テンプレート読込
+                        </button>
+                </div>
+            </div>
                 <div class="accordion bg-light shadow">
                     <form class="g-3">
                         <!-- Text Edit -->
@@ -405,9 +418,9 @@
                 infoTitle: '騎空団概要',
                 etcTitle: 'その他',
                 essentials: '・定住でも傭兵でも可 ※セットでも可\n・初心者の方でもノルマクリア頂ければ問題ございません。\n【ログインノルマ】\n・毎日ログイン(無言でログイン3日前で除名)',
-                battle: '・古戦場Aランク帯\n・基本2500位を目指して且つ勝ちを狙っていきます。\n※ここ一年は平均団順位2500位ほどを維持\n・ドレバラは各個人のノルマはありませんが、報酬すべて獲得で動きます。\n【古戦場ノルマ】\n・古戦場累計貢献度2億以上 (接戦時協力してくれる方歓迎)\n※厳しい場合は事前に連絡頂ければ除名はございません。',
-                infomation: '団長：くべ（ID:20892951）\n団ID：1450486\n平均RANK：約230（200～280）\nアサルトタイム:22～24時',
-                etc: '・ルシ/バブ/ベリアル/スパバハ/天元は団内キャリー可\n・団マルチは、天元/スパルシは団内で討伐可\n※希望があれば属性に合わせて対応可能です。\n【外部ツール】\n・Discordはありますが希望者のみ。(無言・聞き専でも可)',
+                battle: '・古戦場Aランク帯\n・基本2500位を目指して且つ勝ちを狙っていきます。\n・ドレバラは各個人のノルマはありませんが、報酬すべて獲得で動きます。\n【古戦場ノルマ】\n・古戦場累計貢献度2億以上 (接戦時協力してくれる方歓迎)\n※厳しい場合は事前に連絡頂ければ除名はございません。',
+                infomation: '団長：くべ（ID:20892951）\n団ID：1450486\n平均RANK：約349（226～400）\nアサルトタイム:22～24時',
+                etc: '・ルシ/バブ/ベリアル/スパバハ/天元は団内キャリー可\n【外部ツール】\n・Discordはありますが希望者のみ。(無言・聞き専でも可)',
                 notice: '',
 
                 fontTitle: 'Noto Serif JP',
@@ -500,6 +513,69 @@
             },
 
             methods: {
+                saveTemplate() {
+                // テンプレートで保存するデータ
+                    const template = {
+                        mainTitle: this.mainTitle,
+                        esseTitle: this.esseTitle,
+                        battleTitle: this.battleTitle,
+                        infoTitle: this.infoTitle,
+                        etcTitle: this.etcTitle,
+                        essentials: this.essentials,
+                        battle: this.battle,
+                        infomation: this.infomation,
+                        etc: this.etc,
+                        notice: this.notice,
+                        fontTitle: this.fontTitle,
+                        fontBody: this.fontBody,
+                        baseColor: this.baseColor,
+                        noticeColor: this.noticeColor,
+                        configBg: this.configBg.opacity, // 背景透明度だけ
+                        configFimg: this.configFimg.image.src,
+                        configCimg: this.configCimg.image.src,
+                        };
+                        const blob = new Blob([JSON.stringify(template, null, 2)], {type: "application/json"});
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = "gbf_template.json";
+                        a.click();
+                        URL.revokeObjectURL(url);
+                },
+                triggerLoadTemplate() {
+                    this.$refs.templateLoader.value = "";
+                    this.$refs.templateLoader.click();
+                },
+                loadTemplateFromFile(e) {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = evt => {
+                    try {
+                        const json = JSON.parse(evt.target.result);
+                        if (json.mainTitle !== undefined) this.mainTitle = json.mainTitle;
+                        if (json.esseTitle !== undefined) this.esseTitle = json.esseTitle;
+                        if (json.battleTitle !== undefined) this.battleTitle = json.battleTitle;
+                        if (json.infoTitle !== undefined) this.infoTitle = json.infoTitle;
+                        if (json.etcTitle !== undefined) this.etcTitle = json.etcTitle;
+                        if (json.essentials !== undefined) this.essentials = json.essentials;
+                        if (json.battle !== undefined) this.battle = json.battle;
+                        if (json.infomation !== undefined) this.infomation = json.infomation;
+                        if (json.etc !== undefined) this.etc = json.etc;
+                        if (json.notice !== undefined) this.notice = json.notice;
+                        if (json.fontTitle !== undefined) this.fontTitle = json.fontTitle;
+                        if (json.fontBody !== undefined) this.fontBody = json.fontBody;
+                        if (json.baseColor !== undefined) this.baseColor = json.baseColor;
+                        if (json.noticeColor !== undefined) this.noticeColor = json.noticeColor;
+                        if (json.configBg !== undefined) this.configBg.opacity = json.configBg;
+                        if (json.configFimg !== undefined) this.configFimg.image.src = json.configFimg;
+                        if (json.configCimg !== undefined) this.configCimg.image.src = json.configCimg;
+                    } catch (e) {
+                        alert("テンプレートファイルの読み込みに失敗しました: " + e);
+                    }
+                    };
+                    reader.readAsText(file, "utf-8");
+                },
                 bgModify(e) {
                     const fileImg = this.$refs.bgModify.files[0];
                     if (fileImg.type.startsWith("image/")) {
