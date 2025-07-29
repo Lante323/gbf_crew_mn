@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&family=M+PLUS+Rounded+1c&family=M+PLUS+1p&family=Reggae+One&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500&family=M+PLUS+Rounded+1c&family=M+PLUS+1p&family=Reggae+One&family=Zen+Kaku+Gothic+New&display&family=WDXL+Lubrifont+JP+N&family=IBM+Plex+Sans+JP&family=Zen+Maru+Gothic&family=Kosugi+Maru&family=Dela+Gothic+One&family=Hachi+Maru+Pop&family=Yuji+Mai&family=Potta+One&family=Stick&display=swap"
         rel="stylesheet">
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/common.css" rel="stylesheet">
@@ -51,15 +51,47 @@
 
                                     <div class="row">
                                         <div class="col-12">
-                                            <label for="formfile" class="form-label mb-0">Title &amp; Headline
-                                                Font<br>
-                                                （フォントが表示されない場合はテキストを編集すると描画されます）</label>
+                                            <label for="formfile" class="form-label mb-0">
+                                                Title &amp; Headline Font / タイトル・見出しのフォント
+                                            </label>
                                             <select v-model="fontTitle">
                                                 <option selected>Noto Serif JP</option>
                                                 <option>M PLUS 1p</option>
                                                 <option>M PLUS Rounded 1c</option>
                                                 <option>Reggae One</option>
+                                                <option>Zen Kaku Gothic New</option>
+                                                <option>WDXL Lubrifont JP N</option>
+                                                <option>IBM Plex Sans JP</option>
+                                                <option>Zen Maru Gothic</option>
+                                                <option>Kosugi Maru</option>
+                                                <option>Dela Gothic One</option>
+                                                <option>Hachi Maru Pop</option>
+                                                <option>Yuji Mai</option>
+                                                <option>Potta One</option>
+                                                <option>Stick</option>
                                             </select>
+                                            <br>
+                                            <label for="formfile" class="form-label mb-0 mt-3">
+                                                Content Font / 本文のフォント
+                                            </label>
+                                            <select v-model="fontBody">
+                                                <option selected>M PLUS 1p</option>
+                                                <option>Noto Serif JP</option>
+                                                <option>M PLUS Rounded 1c</option>
+                                                <option>Reggae One</option>
+                                                <option>Zen Kaku Gothic New</option>
+                                                <option>WDXL Lubrifont JP N</option>
+                                                <option>IBM Plex Sans JP</option>
+                                                <option>Zen Maru Gothic</option>
+                                                <option>Kosugi Maru</option>
+                                                <option>Dela Gothic One</option>
+                                                <option>Hachi Maru Pop</option>
+                                                <option>Yuji Mai</option>
+                                                <option>Potta One</option>
+                                                <option>Stick</option>
+                                            </select>
+                                                <br>
+                                                (フォントが反映されない場合、テキストを編集すると反映されます)
                                             <label for="formFile" class="form-label w-75 mt-4 mb-0">Title</label>
                                             <input type="text" v-model="mainTitle" placeholder="タイトル（○○団員募集 "
                                                 class="form-control form-control-sm">
@@ -379,7 +411,7 @@
                 </v-stage>
 
                 <div class="mt-2 text-end">
-                    <p>Granblue Fantasy Crew Recruitment Image Generator Ver.1.0.4<br>
+                    <p>Granblue Fantasy Crew Recruitment Image Generator Ver.1.0.4.2<br>
                         Source on <a href="https://github.com/nlrcmsp/gbf_crew" target="blank">Github</a>
                     </p>
                     <p><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
