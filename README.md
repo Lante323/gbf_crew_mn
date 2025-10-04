@@ -1,4 +1,4 @@
-Granblue Fantasy Crew Recruitment Image Generator for MN
+Granblue Fantasy Crew Recruitment Image Generator for MN（Ver.1.0.4.3）
 ---
 
 ## Overview
@@ -9,6 +9,11 @@ Granblue Fantasy Crew Recruitment Image Generator for MN
 ![103demo](https://user-images.githubusercontent.com/76949777/130411020-e97664a7-b09b-44a9-82b6-5438f17bce1d.gif)
 
 ### Release Note
+
+Ver.1.0.4.3
+- プレビュー欄のスクロール追従（sticky preview）対応
+- プレビュー画像の最大化・レイアウト調整
+
 Ver.1.0.4.2
 - フォントと本文へのフォント変更機能を追加
 

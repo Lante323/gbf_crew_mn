@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Granblue Fantasy Crew Recruitment Image Generator for mn Ver.1.0.4.2</title>
+    <title>Granblue Fantasy Crew Recruitment Image Generator for mn Ver.1.0.4.3</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -15,14 +15,16 @@
 </head>
 
 <body class="">
+    <header style="width:100vw; background:#f8f9fa;" class="border-bottom mb-2 px-0 mx-0">
+        <div style="width:100vw;">
+            <h1 class="fs-4 text-primary border border-primary bg-light text-center rounded-3 p-2 m-0 w-100" style="font-size:2.2rem;">団員募集画像ジェネレータ</h1>
+        </div>
+    </header>
     <div id="app" class="container justify-content-center">
-        <div id="wrapper" class="row">
-            <header class="mt-2p-2 mt-2">
-                <h1 class="fs-4 text-primary border border-primary bg-light text-center rounded-3 p-2">団員募集画像ジェネレータ</h1>
-            </header>
+    <div id="wrapper" class="row d-flex flex-row" style="width:100vw; margin:0 auto;">
 
             <!-- Edit Column -->
-            <div id="inputForm" class="col-lg-6 gx-0 gx-lg-3">
+            <div id="inputForm">
                 <div class="row mt-4">
                     <div class="col-6">
                         <button type="button" class="btn btn-outline-secondary w-100" @click="saveTemplate">
@@ -228,8 +230,10 @@
             </div>
 
             <!-- preview Column -->
-            <div id="stageParent" class="col-lg-6 gx-0">
-                <v-stage ref="stage" :config="configKonva">
+            <div id="previewCol">
+                <div class="preview-sticky" style="position:sticky; top:1.5rem; z-index:10;">
+                    <div id="stageParent">
+                        <v-stage ref="stage" :config="configKonva">
                     <v-layer ref="layer">
                         <v-image ref="image" :config="{
                             width: 700,
@@ -410,15 +414,20 @@
                     </v-layer>
                 </v-stage>
 
-                <div class="mt-2 text-end">
-                    <p>Granblue Fantasy Crew Recruitment Image Generator Ver.1.0.4.2<br>
-                        Source on <a href="https://lante323.github.io/gbf_crew_mn/" target="blank">Github</a>
-                         : Original on <a href="https://github.com/nlrcmsp/gbf_crew/" target="blank">Original Github</a>
-                    </p>
-                    <p><a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
-                            data-show-count="false">Tweet</a></p>
-                    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-                </div>
+                <!-- フッターに移動済み -->
+</div>
+    <footer class="mt-5 py-3 border-top bg-light w-100" style="position:fixed; left:0; bottom:0; width:100vw; z-index:100;">
+        <div class="container-fluid px-4">
+            <div class="text-center">
+                <p class="text-muted small mb-2">Granblue Fantasy Crew Recruitment Image Generator Ver.1.0.4.3<br>
+                    Source on <a href="https://lante323.github.io/gbf_crew_mn/" target="blank">Github</a>
+                     : Original on <a href="https://github.com/nlrcmsp/gbf_crew/" target="blank">Original Github</a>
+                    <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button"
+                        data-show-count="false">X Post</a>
+                <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script></p>
+            </div>
+        </div>
+    </footer>
             </div>
         </div>
     </div>
@@ -489,7 +498,7 @@
                     fontSize: 12,
                     fontFamily: 'M PLUS 1p',
                     align: 'right',
-                    text: 'GBF CrewRecruitment ImageGenerator Ver.1.0.4.2 for mn https://lante323.github.io/gbf_crew_mn/',
+                    text: 'GBF CrewRecruitment ImageGenerator Ver.1.0.4.3 for mn https://lante323.github.io/gbf_crew_mn/',
                 },
 
                 configFimg: {
@@ -685,15 +694,27 @@
         //v-stageリサイズ
         function fitStageIntoParentContainer() {
             const container = document.querySelector('#stageParent');
-            // now we need to fit stage into parent container
+            const wrapper = document.querySelector('#wrapper');
+            const header = document.querySelector('header');
+            const footer = document.querySelector('footer');
             const containerWidth = container.offsetWidth;
+            const wrapperWidth = wrapper ? wrapper.offsetWidth : window.innerWidth;
+            const headerWidth = header ? header.offsetWidth : window.innerWidth;
+            // 横幅は左右ペイン合計の最大値、縦はヘッダー・フッターを除いた高さ
+            const maxWidth = window.innerWidth;
+            const headerHeight = header ? header.offsetHeight : 0;
+            const footerHeight = footer ? footer.offsetHeight : 0;
+            const availableHeight = window.innerHeight - (headerHeight + footerHeight); // ヘッダー・フッター分を正確に引く
 
+            // キャンバスの論理サイズ
             const sceneWidth = 700;
             const sceneHeight = 1000;
-            // but we also make the full scene visible
-            // so we need to scale all objects on canvas
-            const scale = containerWidth / sceneWidth;
+            // 横幅・高さどちらも収まる最大スケールを計算（縦横比維持）
+            const scaleW = maxWidth / sceneWidth;
+            const scaleH = availableHeight / sceneHeight;
+            const scale = Math.min(scaleW, scaleH, 1);
 
+            // スクロール不要な最大サイズで拡大
             stage.width(sceneWidth * scale);
             stage.height(sceneHeight * scale);
             stage.scale({
@@ -702,7 +723,6 @@
             });
         }
         fitStageIntoParentContainer(); // init
-        // adapt the stage on any window resize
         window.addEventListener('resize', fitStageIntoParentContainer);
     </script>
 </body>
